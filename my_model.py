@@ -30,9 +30,7 @@ def load_data():
     ytrain = train_df.values[:,11]
     xtest = test_df.values
     ytest = sub_df['datetime'].values
-    
-    print ytrain
-    
+   
     return xtrain, ytrain, xtest, ytest
 
 def score_model(model, xtrain, ytrain):
@@ -41,7 +39,8 @@ def score_model(model, xtrain, ytrain):
                                                                      ytrain,
                                                                      test_size=0.4, random_state=randint)
     model.fit(xTrain, yTrain)
-    ytpred = model.predict(xTest)
+    #ytpred = model.predict(xTest)
+    print yTest
     return model.score(xTest, yTest)
 
 def prepare_submission(model, xtrain, ytrain, xtest, ytest):
@@ -68,7 +67,7 @@ if __name__ == '__main__':
     #xtest = pca.transform(xtest)
     
     #compare_models(xtrain, ytrain)
-    #model = RandomForestClassifier(n_estimators=100, n_jobs=4)
-    #print 'score', score_model(model, xtrain, ytrain)
-    #print model.feature_importances_
+    model = RandomForestClassifier(n_estimators=100, n_jobs=4)
+    print 'score', score_model(model, xtrain, ytrain)
+    print model.feature_importances_
     #prepare_submission(model, xtrain, ytrain, xtest, ytest)
