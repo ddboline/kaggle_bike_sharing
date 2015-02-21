@@ -24,6 +24,9 @@ def load_data():
     
     #train_df['datetime'] = train_df['datetime'].map(lambda d: d.strftime("%s")).astype(np.int64)
     train_df['datetime'] = train_df['datetime'].map(lambda d: d.hour*60 + d.minute).astype(np.int64)
+
+    print train_df.describe()
+    print train_df.columns[:9]
     
     for c in train_df.columns:
         print train_df[c].dtype, c, list(train_df.columns).index(c)
@@ -32,6 +35,8 @@ def load_data():
     ytrain = train_df.values[:,11]
     xtest = test_df.values
     ytest = sub_df['datetime'].values
+   
+    print xtrain[0,:]
    
     return xtrain, ytrain, xtest, ytest
 
@@ -69,8 +74,8 @@ if __name__ == '__main__':
     #xtest = pca.transform(xtest)
     
     #compare_models(xtrain, ytrain)
-    model = RandomForestClassifier(n_estimators=400, n_jobs=4)
-    #model = SVC(kernel="linear", C=0.025)
+    model = RandomForestClassifier(n_estimators=10, n_jobs=4)
+    model = SVC(kernel="linear", C=0.025)
     print 'score', score_model(model, xtrain, ytrain)
     print model.feature_importances_
     #prepare_submission(model, xtrain, ytrain, xtest, ytest)
