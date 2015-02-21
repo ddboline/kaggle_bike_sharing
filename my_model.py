@@ -12,6 +12,7 @@ import datetime
 
 from sklearn import cross_validation
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVC
 from sklearn.decomposition import PCA
 from sklearn.cross_validation import cross_val_score
@@ -78,7 +79,7 @@ if __name__ == '__main__':
     
     #compare_models(xtrain, ytrain)
     #model = RandomForestClassifier(n_estimators=200)
-    model = RandomForestClassifier()
+    model = RandomForestRegressor()
     #model = SVC(kernel="linear", C=0.025)
     print 'score', score_model(model, xtrain, ytrain)
     print model.feature_importances_
