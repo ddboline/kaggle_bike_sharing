@@ -66,13 +66,13 @@ if __name__ == '__main__':
     
     print xtrain.shape, ytrain.shape, xtest.shape, ytest.shape
     
-    pca = PCA()
+    #pca = PCA()
     #x_pca = np.vstack([xtrain, xtest])
     #print x_pca.shape
-    pca.fit(xtrain)
+    #pca.fit(xtrain)
     
-    xtrain = pca.transform(xtrain)
-    xtest = pca.transform(xtest)
+    #xtrain = pca.transform(xtrain)
+    #xtest = pca.transform(xtest)
     
     #compare_models(xtrain, ytrain)
     model = RandomForestClassifier()
