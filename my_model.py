@@ -56,7 +56,7 @@ def score_model(model, xtrain, ytrain):
 
 def prepare_submission(model, xtrain, ytrain, xtest, ytest):
     model.fit(xtrain, ytrain)
-    ytest2 = model.predict(xtest)
+    ytest2 = model.predict(xtest).astype(np.int64)
     #dateobj = map(datetime.datetime.fromtimestamp, ytest)
     
     df = pd.DataFrame({'datetime': ytest, 'count': ytest2}, columns=('datetime','count'))
