@@ -12,6 +12,7 @@ import datetime
 
 from sklearn import cross_validation
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 
 def load_data():
     train_df = pd.read_csv('train.csv', parse_dates=[0,])
