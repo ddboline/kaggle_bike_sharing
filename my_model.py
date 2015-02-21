@@ -39,7 +39,7 @@ def load_data():
     xtest = test_df.values
     ytest = sub_df['datetime'].values
    
-    print xtrain[0,:]
+    print ytrain[,:10]
    
     return xtrain, ytrain, xtest, ytest
 
