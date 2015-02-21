@@ -85,4 +85,4 @@ if __name__ == '__main__':
     model = SGDRegressor()
     print 'score', score_model(model, xtrain, ytrain)
     print model.feature_importances_
-    prepare_submission(model, xtrain, ytrain, xtest, ytest)
+    #prepare_submission(model, xtrain, ytrain, xtest, ytest)
