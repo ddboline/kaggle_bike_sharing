@@ -22,7 +22,8 @@ def load_data():
     print train_df.columns
     print test_df.columns
     
-    train_df['datetime'] = train_df['datetime'].map(lambda d: d.strftime("%s")).astype(np.int64)
+    #train_df['datetime'] = train_df['datetime'].map(lambda d: d.strftime("%s")).astype(np.int64)
+    train_df['datetime'] = train_df['datetime'].map(lambda d: d.hour*60 + d.minute).astype(np.int64)
     
     for c in train_df.columns:
         print train_df[c].dtype, c, list(train_df.columns).index(c)
