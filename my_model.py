@@ -13,6 +13,7 @@ import datetime
 from sklearn import cross_validation
 from sklearn.ensemble import RandomForestClassifier
 
+from sklearn.metrics import roc_auc_score
 
 def load_data():
     train_df = pd.read_csv('train.csv', parse_dates=[0,])
