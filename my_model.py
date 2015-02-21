@@ -14,6 +14,7 @@ from sklearn import cross_validation
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.decomposition import PCA
+from sklearn.cross_validation import cross_val_score
 
 def load_data():
     train_df = pd.read_csv('train.csv', parse_dates=[0,])
@@ -47,8 +48,8 @@ def score_model(model, xtrain, ytrain):
                                                                      ytrain,
                                                                      test_size=0.4, random_state=randint)
     model.fit(xTrain, yTrain)
-    #ytpred = model.predict(xTest)
-    print yTest
+    #cvAccuracy = np.mean(cross_val_score(model, xtrain, ytrain, cv=2))
+    #print yTest
     return model.score(xTest, yTest)
 
 def prepare_submission(model, xtrain, ytrain, xtest, ytest):
@@ -66,13 +67,13 @@ if __name__ == '__main__':
     
     print xtrain.shape, ytrain.shape, xtest.shape, ytest.shape
     
-    #pca = PCA()
+    pca = PCA()
     #x_pca = np.vstack([xtrain, xtest])
     #print x_pca.shape
-    #pca.fit(xtrain)
+    pca.fit(xtrain)
     
-    #xtrain = pca.transform(xtrain)
-    #xtest = pca.transform(xtest)
+    xtrain = pca.transform(xtrain)
+    xtest = pca.transform(xtest)
     
     #compare_models(xtrain, ytrain)
     model = RandomForestClassifier(n_estimators=200)
