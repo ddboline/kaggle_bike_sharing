@@ -78,9 +78,9 @@ if __name__ == '__main__':
     
     #compare_models(xtrain, ytrain)
     #model = RandomForestClassifier(n_estimators=200)
-    #model = RandomForestRegressor(n_estimators=200)
+    model = RandomForestRegressor(n_estimators=200)
     #model = SVC(kernel="linear", C=0.025)
-    model = GradientBoostingRegressor()
+    #model = GradientBoostingRegressor()
     print 'score', score_model(model, xtrain, ytrain)
     #print model.feature_importances_
     #prepare_submission(model, xtrain, ytrain, xtest, ytest)
