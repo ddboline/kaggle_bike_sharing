@@ -26,6 +26,7 @@ def load_data():
     
     #train_df['datetime'] = train_df['datetime'].map(lambda d: d.strftime("%s")).astype(np.int64)
     train_df['datetime'] = train_df['datetime'].map(lambda d: d.hour).astype(np.int64)
+    test_df['datetime'] = test_df['datetime'].map(lambda d: d.hour).astype(np.int64)
 
     print train_df.describe()
     print train_df.columns[:9]
