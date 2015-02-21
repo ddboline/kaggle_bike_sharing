@@ -8,6 +8,8 @@ import pylab as pl
 import numpy as np
 import pandas as pd
 
+import datetime
+
 from sklearn import cross_validation
 from sklearn.ensemble import RandomForestClassifier
 
@@ -28,7 +30,7 @@ def load_data():
     xtrain = train_df.values[:,:9]
     ytrain = train_df.values[:,11]
     xtest = test_df.values
-    ytest = sub_df.values
+    ytest = sub_df['datetime'].values
     
     return xtrain, ytrain, xtest, ytest
 
@@ -41,6 +43,16 @@ def score_model(model, xtrain, ytrain):
     ytpred = model.predict(xTest)
     print 'roc', roc_auc_score(yTest, ytpred)
     return model.score(xTest, yTest)
+
+def prepare_submission(model, xtrain, ytrain, xtest, ytest):
+    model.fit(xtrain, ytrain)
+    ytest2 = model.predict(xtest)
+    dateobj = map(datetime.datetime.fromtimestamp, ytest)
+    
+    df = pd.DataFrame({'datetime': dateobj, 'count': ytest2}, columns=('datetime','count'))
+    df.to_csv('submission.csv', index=False)
+    
+    return
 
 if __name__ == '__main__':
     xtrain, ytrain, xtest, ytest = load_data()
