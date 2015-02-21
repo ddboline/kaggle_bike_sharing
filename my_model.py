@@ -32,8 +32,8 @@ def load_data():
     for c in train_df.columns:
         print train_df[c].dtype, c, list(train_df.columns).index(c)
     
-    xtrain = train_df.values[:,:9][::5]
-    ytrain = train_df.values[:,11][::5]
+    xtrain = train_df.values[:,:9]
+    ytrain = train_df.values[:,11]
     xtest = test_df.values
     ytest = sub_df['datetime'].values
    
