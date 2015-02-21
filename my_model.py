@@ -13,8 +13,6 @@ import datetime
 from sklearn import cross_validation
 from sklearn.ensemble import RandomForestClassifier
 
-from sklearn.metrics import roc_auc_score
-
 def load_data():
     train_df = pd.read_csv('train.csv', parse_dates=[0,])
     test_df = pd.read_csv('test.csv', parse_dates=[0,])
@@ -42,7 +40,6 @@ def score_model(model, xtrain, ytrain):
                                                                      test_size=0.4, random_state=randint)
     model.fit(xTrain, yTrain)
     ytpred = model.predict(xTest)
-    print 'roc', roc_auc_score(yTest, ytpred)
     return model.score(xTest, yTest)
 
 def prepare_submission(model, xtrain, ytrain, xtest, ytest):
