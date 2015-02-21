@@ -15,7 +15,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVC
 from sklearn.decomposition import PCA
-from sklearn.linear_model import SGDRegressor
+from sklearn.linear_model import LinearRegression
 from sklearn.cross_validation import cross_val_score
 
 def load_data():
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     #model = RandomForestClassifier(n_estimators=200)
     #model = RandomForestRegressor(n_estimators=200)
     #model = SVC(kernel="linear", C=0.025)
-    model = SGDRegressor()
+    model = LinearRegression()
     print 'score', score_model(model, xtrain, ytrain)
     print model.feature_importances_
     #prepare_submission(model, xtrain, ytrain, xtest, ytest)
