@@ -23,7 +23,7 @@ def load_data():
     print test_df.columns
     
     #train_df['datetime'] = train_df['datetime'].map(lambda d: d.strftime("%s")).astype(np.int64)
-    train_df['datetime'] = train_df['datetime'].map(lambda d: d.hour*60 + d.minute).astype(np.int64)
+    train_df['datetime'] = train_df['datetime'].map(lambda d: d.hour).astype(np.int64)
 
     print train_df.describe()
     print train_df.columns[:9]
@@ -31,8 +31,8 @@ def load_data():
     for c in train_df.columns:
         print train_df[c].dtype, c, list(train_df.columns).index(c)
     
-    xtrain = train_df.values[:,:9]
-    ytrain = train_df.values[:,11]
+    xtrain = train_df.values[:,:9][::5]
+    ytrain = train_df.values[:,11][::5]
     xtest = test_df.values
     ytest = sub_df['datetime'].values
    
@@ -65,17 +65,17 @@ if __name__ == '__main__':
     
     print xtrain.shape, ytrain.shape, xtest.shape, ytest.shape
     
-    #pca = PCA(n_components=10)
+    pca = PCA()
     #x_pca = np.vstack([xtrain, xtest])
     #print x_pca.shape
-    #pca.fit(xtrain)
+    pca.fit(xtrain)
     
-    #xtrain = pca.transform(xtrain)
-    #xtest = pca.transform(xtest)
+    xtrain = pca.transform(xtrain)
+    xtest = pca.transform(xtest)
     
     #compare_models(xtrain, ytrain)
-    model = RandomForestClassifier(n_estimators=10, n_jobs=4, max_features="log2")
-    model = SVC(kernel="linear", C=0.025)
+    model = RandomForestClassifier()
+    #model = SVC(kernel="linear", C=0.025)
     print 'score', score_model(model, xtrain, ytrain)
     print model.feature_importances_
     #prepare_submission(model, xtrain, ytrain, xtest, ytest)
