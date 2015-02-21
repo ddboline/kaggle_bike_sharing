@@ -69,8 +69,8 @@ if __name__ == '__main__':
     #xtest = pca.transform(xtest)
     
     #compare_models(xtrain, ytrain)
-    #model = RandomForestClassifier(n_estimators=100, n_jobs=4)
-    model = SVC(kernel="linear", C=0.025)
+    model = RandomForestClassifier(n_estimators=400, n_jobs=4)
+    #model = SVC(kernel="linear", C=0.025)
     print 'score', score_model(model, xtrain, ytrain)
     print model.feature_importances_
     #prepare_submission(model, xtrain, ytrain, xtest, ytest)
