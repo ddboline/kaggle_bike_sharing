@@ -13,6 +13,19 @@ import datetime
 from sklearn import cross_validation
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
+
+from sklearn.svm import SVR
+from sklearn.linear_model import LinearRegression, LassoLars
+from sklearn.linear_model import Ridge, Lasso, ElasticNetCV
+from sklearn.linear_model import BayesianRidge, ARDRegression
+from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import RandomizedLogisticRegression
+from sklearn.linear_model import SGDRegressor
+from sklearn.linear_model import Perceptron
+from sklearn.linear_model import PassiveAggressiveRegressor
+
+from sklearn.tree import DecisionTreeRegressor
+
 from sklearn.decomposition import PCA
 from sklearn.cross_validation import cross_val_score
 
@@ -78,9 +91,11 @@ if __name__ == '__main__':
     
     #compare_models(xtrain, ytrain)
     #model = RandomForestClassifier(n_estimators=200)
-    model = RandomForestRegressor(n_estimators=400)
+    #model = RandomForestRegressor(n_estimators=400)
+    #model = SVR(kernel='linear')
+    model = RandomizedLogisticRegression()
     #model = SVC(kernel="linear", C=0.025)
     #model = GradientBoostingRegressor()
     print 'score', score_model(model, xtrain, ytrain)
-    print model.feature_importances_
+    #print model.feature_importances_
     #prepare_submission(model, xtrain, ytrain, xtest, ytest)
