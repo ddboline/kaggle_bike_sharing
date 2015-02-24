@@ -26,7 +26,7 @@ from sklearn.linear_model import PassiveAggressiveRegressor
 
 from sklearn.tree import DecisionTreeRegressor
 
-from sklearn.decomposition import PCA
+from sklearn.decomposition import PCA, KernelPCA
 from sklearn.cross_validation import cross_val_score
 
 def load_data():
@@ -81,7 +81,7 @@ if __name__ == '__main__':
     
     print xtrain.shape, ytrain.shape, xtest.shape, ytest.shape
     
-    #pca = PCA()
+    #pca = KernelPCA(kernel='rbf')
     #x_pca = np.vstack([xtrain, xtest])
     #print x_pca.shape
     #pca.fit(xtrain)
@@ -91,9 +91,10 @@ if __name__ == '__main__':
     
     #compare_models(xtrain, ytrain)
     #model = RandomForestClassifier(n_estimators=200)
-    #model = RandomForestRegressor(n_estimators=400)
+    model = RandomForestRegressor(n_estimators=400)
     #model = SVR(kernel='linear')
-    model = RandomizedLogisticRegression()
+    #model = DecisionTreeRegressor(max_depth=10)
+    #model = RandomizedLogisticRegression()
     #model = SVC(kernel="linear", C=0.025)
     #model = GradientBoostingRegressor()
     print 'score', score_model(model, xtrain, ytrain)
