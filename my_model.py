@@ -94,9 +94,9 @@ def load_data():
     train_df = train_df.drop(labels=['datetime'], axis=1)
     test_df = test_df.drop(labels=['datetime'], axis=1)
 
-    create_html_page_of_plots(get_plots(train_df,
-                                        prefix='train') + \
-                                        get_plots(test_df, prefix='test'))
+    #create_html_page_of_plots(get_plots(train_df,
+                                        #prefix='train') + \
+                                        #get_plots(test_df, prefix='test'))
 
     print train_df.describe()
     print train_df.columns[:9]
@@ -107,7 +107,7 @@ def load_data():
         print train_df[c].dtype, c, list(train_df.columns).index(c)
 
     #ytrain = train_df.loc[:,['casual', 'registered', 'count']].values
-    ytrain = train_df.loc[:,'count'].values
+    ytrain = np.log1p( train_df.loc[:,'count'].values )
     xtrain = train_df.drop(labels=['casual', 'registered', 'count'], axis=1).values
     xtest = test_df.values
     ytest = sub_df['datetime'].values
@@ -134,12 +134,13 @@ def score_model(model, xtrain, ytrain):
     model.fit(xTrain, yTrain)
     #cvAccuracy = np.mean(cross_val_score(model, xtrain, ytrain, cv=2))
     ytest_pred = model.predict(xTest)
-    print 'rmsle', calculate_rmsle(ytest_pred, yTest)
+    print 'rmsle', calculate_rmsle(np.exp(ytest_pred)-1, np.exp(yTest)-1)
     return model.score(xTest, yTest)
 
 def prepare_submission(model, xtrain, ytrain, xtest, ytest):
     model.fit(xtrain, ytrain)
-    ytest2 = model.predict(xtest).astype(np.int64)
+    ytest2 = (np.exp(model.predict(xtest))-1).astype(np.int64)
+    #ytest2 = model.predict(xtest).astype(np.int64)
     #dateobj = map(datetime.datetime.fromtimestamp, ytest)
     
     df = pd.DataFrame({'datetime': ytest, 'count': ytest2}, columns=('datetime','count'))
@@ -161,14 +162,10 @@ if __name__ == '__main__':
     #xtest = pca.transform(xtest)
     
     #compare_models(xtrain, ytrain)
-    #model = RandomForestClassifier(n_estimators=200)
-    model = RandomForestRegressor()
-    #model = RandomForestRegressor(n_estimators=800)
-    #model = SVR(kernel='poly')
-    #model = DecisionTreeRegressor(max_depth=10)
-    #model = AdaBoostRegressor(loss='exponential')
-    #model = SVC(kernel="linear", C=0.025)
-    #model = LinearRegression(normalize=True)
-    print 'score', score_model(model, xtrain, ytrain)
-    print model.feature_importances_
-    #prepare_submission(model, xtrain, ytrain, xtest, ytest)
+    #model = RandomForestRegressor(n_estimators=400, n_jobs=-1)
+    model = GradientBoostingRegressor(loss='ls', verbose=1, max_depth=7, n_estimators=200)
+    
+    #print 'score', score_model(model, xtrain, ytrain)
+    #print model.feature_importances_
+
+    prepare_submission(model, xtrain, ytrain, xtest, ytest)
