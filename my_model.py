@@ -46,12 +46,12 @@ def create_html_page_of_plots(list_of_plots):
 def get_plots(in_df, prefix=''):
     list_of_plots = []
     print in_df.columns
-    
+
     pl.clf()
     scatter_matrix(in_df)
     pl.savefig('%s_matrix.png' % prefix)
     list_of_plots.append('%s_matrix.png' % prefix)
-    
+
     for c in in_df.columns:
         #if c in ('Id', 'Cover_Type'):
             #continue
@@ -81,10 +81,10 @@ def load_data():
     train_df = pd.read_csv('train.csv', parse_dates=[0,])
     test_df = pd.read_csv('test.csv', parse_dates=[0,])
     sub_df = pd.read_csv('sampleSubmission.csv', parse_dates=[0,])
-    
+
     print train_df.columns
     print test_df.columns
-    
+
     #train_df['datetime'] = train_df['datetime'].map(lambda d: d.strftime("%s")).astype(np.int64)
     #test_df['datetime'] = test_df['datetime'].map(lambda d: d.strftime("%s")).astype(np.int64)
     train_df['hour'] = train_df['datetime'].map(lambda d: d.hour).astype(np.int64)
@@ -100,18 +100,18 @@ def load_data():
 
     print train_df.describe()
     print train_df.columns[:9]
-    
+
     print test_df.describe()
-    
+
     for c in train_df.columns:
         print train_df[c].dtype, c, list(train_df.columns).index(c)
 
     #ytrain = train_df.loc[:,['casual', 'registered', 'count']].values
-    ytrain = np.log1p( train_df.loc[:,'count'].values )
+    ytrain = np.log1p(train_df.loc[:,'count'].values)
     xtrain = train_df.drop(labels=['casual', 'registered', 'count'], axis=1).values
     xtest = test_df.values
     ytest = sub_df['datetime'].values
-   
+
     return xtrain, ytrain, xtest, ytest
 
 def calculate_rmsle(ypred, yactual):
@@ -123,7 +123,7 @@ def calculate_rmsle(ypred, yactual):
             x = 1
         lsum += (np.log(x)-np.log(y))**2
     lsum /= N
-    
+
     return np.sqrt(lsum)
 
 def score_model(model, xtrain, ytrain):
@@ -142,29 +142,29 @@ def prepare_submission(model, xtrain, ytrain, xtest, ytest):
     ytest2 = (np.exp(model.predict(xtest))-1).astype(np.int64)
     #ytest2 = model.predict(xtest).astype(np.int64)
     #dateobj = map(datetime.datetime.fromtimestamp, ytest)
-    
+
     df = pd.DataFrame({'datetime': ytest, 'count': ytest2}, columns=('datetime','count'))
     df.to_csv('submission.csv', index=False)
-    
+
     return
 
 if __name__ == '__main__':
     xtrain, ytrain, xtest, ytest = load_data()
-    
+
     print xtrain.shape, ytrain.shape, xtest.shape, ytest.shape
-    
+
     #pca = KernelPCA(kernel='rbf')
     #x_pca = np.vstack([xtrain, xtest])
     #print x_pca.shape
     #pca.fit(xtrain)
-    
+
     #xtrain = pca.transform(xtrain)
     #xtest = pca.transform(xtest)
-    
+
     #compare_models(xtrain, ytrain)
     #model = RandomForestRegressor(n_estimators=400, n_jobs=-1)
     model = GradientBoostingRegressor(loss='ls', verbose=1, max_depth=7, n_estimators=200)
-    
+
     #print 'score', score_model(model, xtrain, ytrain)
     #print model.feature_importances_
 
